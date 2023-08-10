@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <style type="text/css">
+            .container{
+              background-image: url(https://i.postimg.cc/yNdMy3R7/wp2714564.webp);  
+            }
+            body{
+                background-image: url(https://i.postimg.cc/8PgQL3cP/Movie-background.webp);
+                background-size: 100%;
+            }
+        </style>
+</head>
+
+<body>
+    <!-- https://i.postimg.cc/KvvGKjYD/OIP.jpg -->
+    <div class="container w-50 text-center p-5 mt-5">
+        <h1 class="text-white">Movie Search <i class="fa-solid fa-film fa-flip"></i></h1>
+        <input id="moviename" type="text" placeholder="Enter Movie Name" class="form-control">
+        <button onclick="SearchData()" class="p-2 m-2 w-50 btn btn-success">Search</button>
+    </div>
+    <div id="result">
+    </div>
+</body>
+
+<script>
+
+    function SearchData() {
+        movie = moviename.value
+        // console.log(movie);
+        fetch(`https://www.omdbapi.com/?t=${movie}&apikey=d4acc3c5`)
+            .then(data => data.json()).then(data => displayData(data))
+
+        function displayData(smovie) {
+            // console.log(smovie);
+            title = smovie.Title
+            // console.log(title);
+            year = smovie.Year
+            // console.log(year);
+            release = smovie.Released
+            genre=smovie.Genre
+            director=smovie.Director
+            writer=smovie.Writer
+            actors=smovie.Actors
+            plot=smovie.Plot
+            poster=smovie.Poster
+
+            if(title==undefined){
+                alert("Not found")
+            }
+            else{
+                result.innerHTML = `
+                                <div class="container w-50 p-5 bg-light">
+                                    <table class="table">
+                                    <tr>
+                                    <th>Title</th>
+                                    <td>${title}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Year</th>
+                                    <td>${year}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Release Date</th>
+                                    <td>${release}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Genre</th>
+                                    <td>${genre}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Director</th>
+                                    <td>${director}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Writer</th>
+                                    <td>${writer}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Actors</th>
+                                    <td>${actors}</td>
+                                    </tr>
+                                    <tr>
+                                    <th>Plot</th>
+                                    <td>${plot}</td>
+                                    </tr>
+                                    </table>
+                                    <div class="text-center"><img src=${poster} alt="Image"></div>
+                                </div>
+                                `
+        }
+            }
+    }
+
+</script>
+
+</html>
